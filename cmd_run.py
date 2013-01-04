@@ -2,6 +2,14 @@ from string import Template
 import subprocess
 import inspect
 
+class NamespaceMeta(type):
+    def __getitem__(self, arg):
+        return getattr(self, arg)
+
+class Namespace(object):
+    __metaclass__ = NamespaceMeta
+
+
 '''
 run a command line using bash -c
 ns: the namspace or dictionary object
@@ -32,4 +40,9 @@ def _test():
 
 if __name__ == '__main__':
     msg2 = "hello"
-    test()
+    _test()
+
+    class Full(Namespace):
+        b = 1
+    
+    print Full.b, Full["b"]
