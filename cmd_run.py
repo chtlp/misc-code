@@ -31,6 +31,22 @@ def cmd_run(cmd, ns=None):
     # print cmd
     return subprocess.call(['bash', '-exc', cmd])        
 
+def sub(s, ns=None):
+    d = {}
+    fr = inspect.currentframe().f_back
+    d.update(fr.f_locals)
+    d.update(fr.f_globals)
+
+    if ns is None:
+        pass
+    elif '__getitem__' in dir(ns):
+        d.update(ns)
+    else:
+        d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
+
+    s = Template(s).substitute(d)    
+    return s
+
 
 def _test():
     class Variables:
