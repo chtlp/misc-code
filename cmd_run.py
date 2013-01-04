@@ -22,10 +22,11 @@ def cmd_run(cmd, ns=None):
 
     if ns is None:
         pass
-    elif '__getitem__' in dir(ns):
-        d.update(ns)
-    else:
+    elif isinstance(ns, Namespace):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
+    # treat ns as dictionary
+    else:
+        d.update(ns)
 
     cmd = Template(cmd.strip()).substitute(d)
     # print cmd
@@ -34,15 +35,16 @@ def cmd_run(cmd, ns=None):
 def sub(s, ns=None):
     d = {}
     fr = inspect.currentframe().f_back
-    d.update(fr.f_locals)
     d.update(fr.f_globals)
+    d.update(fr.f_locals)
 
     if ns is None:
         pass
-    elif '__getitem__' in dir(ns):
-        d.update(ns)
-    else:
+    elif isinstance(ns, Namespace):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
+    # treat ns as dictionary
+    else:
+        d.update(ns)
 
     s = Template(s).substitute(d)    
     return s
