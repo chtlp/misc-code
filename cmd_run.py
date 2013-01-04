@@ -26,7 +26,7 @@ def cmd_run(cmd, ns=None):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
     # treat ns as dictionary
     else:
-        d.update(ns)
+        d.update(ns.__dict__)
 
     cmd = Template(cmd.strip()).substitute(d)
     # print cmd
@@ -44,7 +44,7 @@ def sub(s, ns=None):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
     # treat ns as dictionary
     else:
-        d.update(ns)
+        d.update(ns.__dict__)
 
     s = Template(s).substitute(d)    
     return s
