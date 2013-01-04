@@ -22,11 +22,11 @@ def cmd_run(cmd, ns=None):
 
     if ns is None:
         pass
-    elif isinstance(ns, Namespace):
+    elif issubclass(ns, Namespace):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
     # treat ns as dictionary
     else:
-        d.update(ns.__dict__)
+        d.update(ns)
 
     cmd = Template(cmd.strip()).substitute(d)
     # print cmd
@@ -40,11 +40,11 @@ def sub(s, ns=None):
 
     if ns is None:
         pass
-    elif isinstance(ns, Namespace):
+    elif issubclass(ns, Namespace):
         d.update(map(lambda k: (k, getattr(ns, k)), dir(ns)))
     # treat ns as dictionary
     else:
-        d.update(ns.__dict__)
+        d.update(ns)
 
     s = Template(s).substitute(d)    
     return s
