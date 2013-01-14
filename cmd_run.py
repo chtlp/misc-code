@@ -60,6 +60,16 @@ def progress(msg):
     sys.stdout.write(msg+'\r')
     sys.stdout.flush()    
 
+'''
+count lines of a given file: wc -l
+'''
+def count_lines(fname):
+    k = 0
+    with open(fname) as fi:
+        for line in fi:
+            k += 1
+    return k
+
 def _test():
     class Variables:
         msg = "world"
