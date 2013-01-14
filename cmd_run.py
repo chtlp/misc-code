@@ -1,6 +1,7 @@
 from string import Template
 import subprocess
 import inspect
+import sys
 
 class NamespaceMeta(type):
     def __getitem__(self, arg):
@@ -32,6 +33,9 @@ def cmd_run(cmd, ns=None):
     # print cmd
     return subprocess.call(['bash', '-exc', cmd])        
 
+'''
+substitute a template string using the current local/global variables
+'''
 def sub(s, ns=None):
     d = {}
     fr = inspect.currentframe().f_back
@@ -49,6 +53,12 @@ def sub(s, ns=None):
     s = Template(s).substitute(d)    
     return s
 
+'''
+print a msg and flush it
+'''
+def progress(msg):
+    sys.stdout.write(msg+'\r')
+    sys.stdout.flush()    
 
 def _test():
     class Variables:
